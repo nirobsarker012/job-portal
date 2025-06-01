@@ -7,7 +7,7 @@ import { AuthContext } from "../utils/AuthContext";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user } = use(AuthContext);
+  const { user, signOutUser } = use(AuthContext);
   console.log(user);
   const navItems = [
     { to: "/", label: "Home" },
@@ -18,6 +18,14 @@ const Navbar = () => {
     { to: "/blogs", label: "Blogs" },
     { to: "/contact", label: "Contact" },
   ];
+
+  const handleSignOut = ()=>{
+    signOutUser().then(()=>
+    {
+      console.log('SignOut SuccessFully');
+    }).catch((err)=>
+    console.log(err));
+  }
 
   return (
     <header className="font-plus shadow-lg py-3 relative z-50">
@@ -61,7 +69,9 @@ const Navbar = () => {
 
         {/* Auth Buttons */}
         {user ? (
-          <button>Logout</button>
+          <button onClick={handleSignOut} className="bg-blue-600 text-white hover:bg-blue-950 py-2 px-4 rounded-[5px] transition-all duration-300 hover:-translate-y-0.5 hidden lg:block">
+            Logout
+          </button>
         ) : (
           <div className="hidden lg:flex items-center gap-x-2.5">
             <NavLink to="/register" className="hover:underline">
@@ -116,19 +126,35 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               ))}
-              <li>
-                <NavLink to="/register" className="text-gray-800">
-                  Register
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/login"
-                  className="bg-blue-600 text-white py-2 px-4 rounded block text-center mt-2"
-                >
-                  Sign in
-                </NavLink>
-              </li>
+              {user ? (
+                <div>
+                  <li>
+                    <NavLink
+                    onClick={handleSignOut}
+                      to="/login"
+                      className="bg-blue-600 text-white py-2 px-4 rounded block text-center mt-2"
+                    >
+                      Logout
+                    </NavLink>
+                  </li>
+                </div>
+              ) : (
+                <div>
+                  <li>
+                    <NavLink to="/register" className="text-gray-800">
+                      Register
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/login"
+                      className="bg-blue-600 text-white py-2 px-4 rounded block text-center mt-2"
+                    >
+                      Sign in
+                    </NavLink>
+                  </li>
+                </div>
+              )}
             </ul>
           </div>
         </div>
