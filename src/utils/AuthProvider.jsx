@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase_auth";
 
@@ -20,24 +21,29 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  // singInWithGoogle 
+  const singIn = provider =>
+  {
+    return signInWithPopup(auth,provider)
+  }
+
   //ObserverFunction
   useEffect(() => {
-    const unSubscriber = (onAuthStateChanged) => (
-      auth,
-      (currenUrer) => {
-        setUser(currenUrer);
-        setLoading(false);
-      }
-    );
-    return () => unSubscriber();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return () => {
+      unsubscribe();
+    };
   }, []);
-
   // Passing Data
   const authInfo = {
     user,
     loading,
     createUser,
     loginUser,
+    singIn,
   };
   return <AuthContext value={authInfo}>{children}</AuthContext>;
 };

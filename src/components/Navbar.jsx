@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { NavLink } from "react-router";
 import { FaChevronDown } from "react-icons/fa6";
 import { CiMenuFries } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
+import { AuthContext } from "../utils/AuthContext";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const { user } = use(AuthContext);
+  console.log(user);
   const navItems = [
     { to: "/", label: "Home" },
     { to: "/find-job", label: "Find a Job" },
@@ -46,25 +48,33 @@ const Navbar = () => {
               </NavLink>
               {/* Dropdown (static demo) */}
               <ul className="absolute top-full left-0 bg-white shadow-md py-2 px-4 rounded hidden group-hover:block min-w-[150px]">
-                <li className="py-1 hover:text-blue-600 cursor-pointer">Submenu 1</li>
-                <li className="py-1 hover:text-blue-600 cursor-pointer">Submenu 2</li>
+                <li className="py-1 hover:text-blue-600 cursor-pointer">
+                  Submenu 1
+                </li>
+                <li className="py-1 hover:text-blue-600 cursor-pointer">
+                  Submenu 2
+                </li>
               </ul>
             </li>
           ))}
         </ul>
 
         {/* Auth Buttons */}
-        <div className="hidden lg:flex items-center gap-x-2.5">
-          <NavLink to="/register" className="hover:underline">
-            Register
-          </NavLink>
-          <NavLink
-            to="/login"
-            className="bg-blue-600 text-white hover:bg-blue-950 py-2 px-4 rounded-[5px] transition-all duration-300 hover:-translate-y-0.5"
-          >
-            Sign in
-          </NavLink>
-        </div>
+        {user ? (
+          <button>Logout</button>
+        ) : (
+          <div className="hidden lg:flex items-center gap-x-2.5">
+            <NavLink to="/register" className="hover:underline">
+              Register
+            </NavLink>
+            <NavLink
+              to="/login"
+              className="bg-blue-600 text-white hover:bg-blue-950 py-2 px-4 rounded-[5px] transition-all duration-300 hover:-translate-y-0.5"
+            >
+              Sign in
+            </NavLink>
+          </div>
+        )}
 
         {/* Mobile Menu Toggle */}
         <button
@@ -81,7 +91,10 @@ const Navbar = () => {
           <div className="fixed top-0 left-0 w-64 h-full bg-white shadow-lg p-6 flex flex-col">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-bold">Menu</h2>
-              <button onClick={() => setIsMobileMenuOpen(false)} className="text-xl">
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-xl"
+              >
                 <IoMdClose />
               </button>
             </div>
@@ -93,7 +106,9 @@ const Navbar = () => {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={({ isActive }) =>
                       `block py-1 ${
-                        isActive ? "text-blue-700 font-semibold" : "text-gray-800"
+                        isActive
+                          ? "text-blue-700 font-semibold"
+                          : "text-gray-800"
                       }`
                     }
                   >

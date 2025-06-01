@@ -4,10 +4,12 @@ import { Link, useNavigate } from "react-router";
 import Lottie from "lottie-react";
 import registerLottie from "../assets/Animation - 1748242074829.json";
 import { AuthContext } from "../utils/AuthContext";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const Register = () => {
+  const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
-  const { createUser } = use(AuthContext);
+  const { createUser, singIn } = use(AuthContext);
   const handleFormData = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -18,10 +20,22 @@ const Register = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        navigate('/login');
+        navigate("/login");
         form.reset();
       })
       .catch((error) => console.error(error));
+  };
+
+  // HandleGoogleSignIn
+  const handleGoogleSignIn = () => {
+    singIn(provider)
+      .then((result) => {
+        navigate("/");
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <section className="container font-plus">
@@ -38,7 +52,10 @@ const Register = () => {
             </p>
           </div>
           <div className="flex items-center justify-center mt-2">
-            <button className=" w-full inline-flex items-center justify-center gap-1 hover:text-blue-700 py-3 cursor-pointer border border-gray-500/30 rounded-[5px]">
+            <button
+              onClick={handleGoogleSignIn}
+              className=" w-full inline-flex items-center justify-center gap-1 hover:text-blue-700 py-3 cursor-pointer border border-gray-500/30 rounded-[5px]"
+            >
               <FcGoogle size={28} />
               Sign up with Google
             </button>

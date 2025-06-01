@@ -4,10 +4,12 @@ import { Link, useNavigate } from "react-router";
 import Lottie from "lottie-react";
 import loginLottie from "../assets/Login - 1748805536007.json";
 import { AuthContext } from "../utils/AuthContext";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { loginUser } = use(AuthContext);
+  const provider = new GoogleAuthProvider();
+  const { loginUser, singIn } = use(AuthContext);
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -20,6 +22,18 @@ const Login = () => {
         console.log(user);
         form.reset();
         navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // Handle googleSignIn
+  const handleGoogleSign = () => {
+    singIn(provider)
+      .then((result) => {
+        navigate("/");
+        console.log(result);
       })
       .catch((error) => {
         console.log(error);
@@ -40,7 +54,10 @@ const Login = () => {
             </p>
           </div>
           <div className="flex items-center justify-center mt-2">
-            <button className=" w-full inline-flex items-center justify-center gap-1 hover:text-blue-700 py-3 cursor-pointer border border-gray-500/30 rounded-[5px]">
+            <button
+              onClick={handleGoogleSign}
+              className=" w-full inline-flex items-center justify-center gap-1 hover:text-blue-700 py-3 cursor-pointer border border-gray-500/30 rounded-[5px]"
+            >
               <FcGoogle size={28} />
               Sign up with Google
             </button>
