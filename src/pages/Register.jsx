@@ -1,11 +1,12 @@
 import React, { use } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Lottie from "lottie-react";
 import registerLottie from "../assets/Animation - 1748242074829.json";
 import { AuthContext } from "../utils/AuthContext";
 
 const Register = () => {
+  const navigate = useNavigate();
   const { createUser } = use(AuthContext);
   const handleFormData = (e) => {
     e.preventDefault();
@@ -17,7 +18,8 @@ const Register = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        e.target.reset();
+        navigate('/login');
+        form.reset();
       })
       .catch((error) => console.error(error));
   };

@@ -1,10 +1,30 @@
-import React from "react";
+import React, { use } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Lottie from "lottie-react";
 import loginLottie from "../assets/Login - 1748805536007.json";
+import { AuthContext } from "../utils/AuthContext";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { loginUser } = use(AuthContext);
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const { email, password } = Object.fromEntries(formData.entries());
+    // Sing With User
+    loginUser(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        form.reset();
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <section className="container font-plus">
       <div className="flex items-center gap-4 justify-center py-40">
@@ -31,14 +51,13 @@ const Login = () => {
             <div className="w-30 h-0.5 bg-gray-700/20"></div>
           </div>
           {/* Form */}
-          <form className="flex flex-col space-y-2">
+          <form onSubmit={handleLogin} className="flex flex-col space-y-2">
             {/* Email */}
             <label>Email*</label>
             <input
               className="py-3 px-2 border border-gray-500/30 rounded-[5px]"
               type="email"
               name="email"
-              id=""
               placeholder="stevenjob@gmail.com"
             />
             {/* User */}
@@ -47,7 +66,6 @@ const Login = () => {
               className="py-3 px-2 border border-gray-500/30 rounded-[5px]"
               name="user"
               type="text"
-              id=""
             />
             {/* Pass */}
             <label>Password*</label>
@@ -55,7 +73,6 @@ const Login = () => {
               className="py-3 px-2 border border-gray-500/30 rounded-[5px]"
               name="password"
               type="password"
-              id=""
               placeholder="**********"
             />
             {/*  */}
