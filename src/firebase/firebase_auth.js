@@ -6,14 +6,13 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey:import.meta.env.API_KEY, 
-  authDomain:import.meta.env.AUTH_DOMAIN, 
-  projectId:import.meta.env.PRO_JECTID, 
-  storageBucket:import.meta.env.STOR_AGE_Bucket, 
-  messagingSenderId:import.meta.env.Messaging_SenderId, 
-  appId:import.meta.env.App_Id, 
+  apiKey:import.meta.env.VITE_API_KEY, 
+  authDomain:import.meta.env.VITE_AUTH_DOMAIN, 
+  projectId:import.meta.env.VITE_PRO_JECTID, 
+  storageBucket:import.meta.env.VITE_STOR_AGE_BUCKET, 
+  messagingSenderId:import.meta.env.VITE_MSG_SENDERID, 
+  appId:import.meta.env.VITE_APP_ID, 
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service

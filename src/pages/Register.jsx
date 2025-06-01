@@ -1,18 +1,26 @@
-import React from "react";
+import React, { use } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router";
 import Lottie from "lottie-react";
-import registerLottie from '../assets/Animation - 1748242074829.json'
+import registerLottie from "../assets/Animation - 1748242074829.json";
+import { AuthContext } from "../utils/AuthContext";
 
 const Register = () => {
-  const handleFormData = e =>
-  {
+  const { createUser } = use(AuthContext);
+  const handleFormData = (e) => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    const newData = Object.fromEntries(formData.entries())
-    console.log(newData);
-  }
+    const { email, password } = Object.fromEntries(formData.entries());
+
+    createUser(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        e.target.reset();
+      })
+      .catch((error) => console.error(error));
+  };
   return (
     <section className="container font-plus">
       <div className="flex items-center gap-4 justify-center py-40">
@@ -41,10 +49,16 @@ const Register = () => {
           {/* Form */}
           <form onSubmit={handleFormData} className="flex flex-col space-y-2">
             <label>Full Name*</label>
-            <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]' type="text" name="name" placeholder="Steven Job" />
+            <input
+              className="py-3 px-2 border border-gray-500/30 rounded-[5px]"
+              type="text"
+              name="name"
+              placeholder="Steven Job"
+            />
             {/* Email */}
             <label>Email*</label>
-            <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]'
+            <input
+              className="py-3 px-2 border border-gray-500/30 rounded-[5px]"
               type="email"
               name="email"
               id=""
@@ -52,13 +66,27 @@ const Register = () => {
             />
             {/* User */}
             <label>Username*</label>
-            <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]' name='user' type="text" />
+            <input
+              className="py-3 px-2 border border-gray-500/30 rounded-[5px]"
+              name="user"
+              type="text"
+            />
             {/* Pass */}
             <label>Password*</label>
-            <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]' name='password' type="password" placeholder="**********" />
+            <input
+              className="py-3 px-2 border border-gray-500/30 rounded-[5px]"
+              name="password"
+              type="password"
+              placeholder="**********"
+            />
             {/* Re-pass */}
             <label>Re-Password*</label>
-            <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]' name='password' type="password" placeholder="**********" />
+            <input
+              className="py-3 px-2 border border-gray-500/30 rounded-[5px]"
+              name="password"
+              type="password"
+              placeholder="**********"
+            />
             {/* check */}
             <div className="w-full flex justify-between items-center">
               <div className="flex items-center gap-1">
@@ -70,15 +98,21 @@ const Register = () => {
               </a>
             </div>
             {/* btn */}
-            <input className="w-full bg-[#05264e] py-3 rounded-[5px] text-white hover:bg-blue-800 transition-all duration-300" type="submit" value="Submit & Register" />
+            <input
+              className="w-full bg-[#05264e] py-3 rounded-[5px] text-white hover:bg-blue-800 transition-all duration-300"
+              type="submit"
+              value="Submit & Register"
+            />
             <div className="flex items-center justify-center ">
-                <span className="">Already have an account?<Link to={'/login'}>Sign in</Link></span>
+              <span className="">
+                Already have an account?<Link to={"/login"}>Sign in</Link>
+              </span>
             </div>
           </form>
         </div>
         {/* Lottie image */}
         <div className="w-[300px] hidden lg:block">
-            <Lottie animationData={registerLottie} loop = {true}/>
+          <Lottie animationData={registerLottie} loop={true} />
         </div>
       </div>
     </section>
