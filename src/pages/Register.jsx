@@ -5,6 +5,14 @@ import Lottie from "lottie-react";
 import registerLottie from '../assets/Animation - 1748242074829.json'
 
 const Register = () => {
+  const handleFormData = e =>
+  {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const newData = Object.fromEntries(formData.entries())
+    console.log(newData);
+  }
   return (
     <section className="container font-plus">
       <div className="flex items-center gap-4 justify-center py-40">
@@ -31,9 +39,9 @@ const Register = () => {
             <div className="w-30 h-0.5 bg-gray-700/20"></div>
           </div>
           {/* Form */}
-          <form className="flex flex-col space-y-2">
+          <form onSubmit={handleFormData} className="flex flex-col space-y-2">
             <label>Full Name*</label>
-            <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]' type="text" name="name" id="" placeholder="Steven Job" />
+            <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]' type="text" name="name" placeholder="Steven Job" />
             {/* Email */}
             <label>Email*</label>
             <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]'
@@ -44,17 +52,17 @@ const Register = () => {
             />
             {/* User */}
             <label>Username*</label>
-            <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]' name='user' type="text" id="" />
+            <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]' name='user' type="text" />
             {/* Pass */}
             <label>Password*</label>
-            <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]' name='password' type="password" id="" placeholder="**********" />
+            <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]' name='password' type="password" placeholder="**********" />
             {/* Re-pass */}
             <label>Re-Password*</label>
-            <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]' name='password' type="password" id="" placeholder="**********" />
+            <input className = 'py-3 px-2 border border-gray-500/30 rounded-[5px]' name='password' type="password" placeholder="**********" />
             {/* check */}
             <div className="w-full flex justify-between items-center">
               <div className="flex items-center gap-1">
-                <input type="checkbox" name="" id="" />
+                <input type="checkbox" name="" />
                 <span>Agree our terms and policy</span>
               </div>
               <a href="" className="">
