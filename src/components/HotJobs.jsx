@@ -3,7 +3,6 @@ import JobCard from './JobCard';
 
 const HotJobs = ({jobPromise}) => {
     const jobs = use(jobPromise);
-    console.log(jobs);
     return (
         <div>
             <h2 className='text-center text-2xl md:text-4xl lg:text-5xl'>Jobs of the day</h2>

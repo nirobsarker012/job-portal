@@ -3,7 +3,6 @@ import { Link } from "react-router";
 import { IoLocation } from "react-icons/io5";
 
 const JobCard = ({ job }) => {
-  console.log(job);
   return (
     <div className="card bg-base-100 max-w-[400px] shadow-sm">
       <div className="flex justify-around items-center">
@@ -36,7 +35,7 @@ const JobCard = ({ job }) => {
           ))}
         </div>
         <div className="card-actions justify-end">
-          <Link to={`${job._id}`}>
+          <Link to={`/jobs/${job._id}`}>
             <button className="btn btn-primary">Apply Now</button>
           </Link>
         </div>
