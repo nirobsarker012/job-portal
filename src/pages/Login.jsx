@@ -1,13 +1,15 @@
 import React, { use } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router";
+import { Link, useLoaderData, useLocation, useNavigate } from "react-router";
 import Lottie from "lottie-react";
 import loginLottie from "../assets/Login - 1748805536007.json";
 import { AuthContext } from "../utils/AuthContext";
 import { GoogleAuthProvider } from "firebase/auth";
 
 const Login = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+  const form = location?.state || "/";
   const provider = new GoogleAuthProvider();
   const { loginUser, singIn } = use(AuthContext);
   const handleLogin = (e) => {
@@ -21,7 +23,7 @@ const Login = () => {
         const user = userCredential.user;
         console.log(user);
         form.reset();
-        navigate("/");
+        navigate(form);
       })
       .catch((error) => {
         console.log(error);
@@ -32,7 +34,7 @@ const Login = () => {
   const handleGoogleSign = () => {
     singIn(provider)
       .then((result) => {
-        navigate("/");
+        navigate(form);
         console.log(result);
       })
       .catch((error) => {
